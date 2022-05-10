@@ -221,7 +221,7 @@ class Document: NSDocument {
 				let isAnAcceptedFileType = CreateMLImageTypes.contains(url.pathExtension.lowercased())
 				let fileExtension = isAnAcceptedFileType ? url.pathExtension : "png"
 				
-				let filename = "Photo \(index + importCount).\(fileExtension)"
+				let filename = "Photo_\(index + importCount).\(fileExtension)"
 				
 				// copy the image data to our "Photos" directory
 				
@@ -311,7 +311,7 @@ class Document: NSDocument {
 		let task = DispatchWorkItem {
 			
 			for image in images {
-				let filename = "Photo \(index + importCount).png"
+				let filename = "Photo_\(index + importCount).png"
 				
 				guard let data = image.tiffRepresentation,
 					let image = NSImage(data: data) else {
