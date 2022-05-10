@@ -56,6 +56,12 @@ class Annotation: NSObject, NSSecureCoding {
 			["x": x, "y": y, "width": w, "height": h]
 		}
 	}
+    
+    var intJSON: [String: Any] {
+        get {
+            ["x": Int(x), "y": Int(y), "width": Int(w), "height": Int(h)]
+        }
+    }
 	
 	// MARK: NSCoding
 	
