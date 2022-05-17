@@ -126,6 +126,18 @@ class CreateMLExporter: DocumentExporter {
 			
 			var objectEntry: [String: Any] = ["image": photoName]
 			var annotations: [[String: Any]] = []
+            
+            let pic = NSImage(byReferencing: url.appendingPathComponent(photoName))
+            let pix = pic.pixelSize
+            if pic.size.width != pix.width || pic.size.height != pix.height {
+                DispatchQueue.main.async {
+                    alert(
+                        title: "Warning",
+                        message: "Improper bitmap size of:\n\(photoName)\n\nImage size:\n\(pic.size)\n\nBitmap size:\n\(pic.pixelSize)",
+                        style: .critical
+                    )
+                }
+            }
 			
 			for annotation in object.annotations {
 				annotations.append([
@@ -147,4 +159,13 @@ class CreateMLExporter: DocumentExporter {
 	func export(url: URL, completion: CompletionHandler?) {
 		self._exportObjects(url: url, completion: completion)
 	}
+}
+
+extension NSImage {
+    
+    var pixelSize: CGSize {
+        representations.reduce(.zero) { size, rep in
+            CGSize(width: CGFloat(rep.pixelsWide), height: CGFloat(rep.pixelsHigh))
+        }
+    }
 }
