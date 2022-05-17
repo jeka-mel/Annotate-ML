@@ -142,7 +142,10 @@ class CreateMLExporter: DocumentExporter {
 			for annotation in object.annotations {
 				annotations.append([
 					"label": annotation.label,
-					"coordinates": annotation.intJSON
+                    "coordinates": annotation.offsetBy(
+                        deltaX: annotation.w / 2,
+                        deltaY: annotation.h / 2
+                    ).intJSON
 				])
 			}
 			

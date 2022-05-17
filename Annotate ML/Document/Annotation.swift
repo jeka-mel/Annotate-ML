@@ -57,6 +57,10 @@ class Annotation: NSObject, NSSecureCoding {
 		}
 	}
     
+    func offsetBy(deltaX: Float, deltaY: Float) -> Annotation {
+        Annotation(x: self.x + deltaX, y: self.y + deltaY, w: self.w, h: self.h)
+    }
+    
     var intJSON: [String: Any] {
         get {
             ["x": Int(x), "y": Int(y), "width": Int(w), "height": Int(h)]
