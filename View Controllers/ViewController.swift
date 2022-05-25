@@ -102,9 +102,11 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
 	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		
 		var thumbnail: NSImage?
+        
+        let obj = self.document!.objects[row]
 		
 		if row >= 0 && row < self.document!.objects.count {
-			thumbnail = self.document!.objects[row].thumbnail
+			thumbnail = obj.thumbnail
 		}
 		
 		let cell = photosTableView.makeView(withIdentifier: cellIdentifier, owner: nil) as! ThumbnailCellView
@@ -115,6 +117,11 @@ extension ViewController: NSTableViewDataSource, NSTableViewDelegate {
 		isProcessing ? cell.processingIndicator.startAnimation(self) : cell.processingIndicator.stopAnimation(self)
 		
 		cell.processingIndicator.isHidden = !isProcessing
+        
+        cell.label.backgroundColor = NSColor.black.withAlphaComponent(0.4)
+        cell.label.layer?.cornerRadius = 8.0
+        cell.label.stringValue = obj.photoFilename.components(separatedBy: ".").first ?? ""
+        cell.label.isEditable = false
 		
 		// set its accessibility label
 		cell.setAccessibilityLabel("aSBPH".l)

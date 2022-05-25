@@ -1936,17 +1936,17 @@ CA
             <objects>
                 <viewController id="B5W-AH-Rer" customClass="SidebarViewController" customModule="Annotate_ML" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="dst-im-Btn">
-                        <rect key="frame" x="0.0" y="0.0" width="197" height="321"/>
+                        <rect key="frame" x="0.0" y="0.0" width="197" height="292"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="139" horizontalPageScroll="10" verticalLineScroll="139" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubA-X2-Fga">
-                                <rect key="frame" x="0.0" y="0.0" width="197" height="296"/>
+                                <rect key="frame" x="0.0" y="0.0" width="197" height="288"/>
                                 <clipView key="contentView" drawsBackground="NO" id="tkd-kF-F5j">
-                                    <rect key="frame" x="1" y="1" width="195" height="294"/>
+                                    <rect key="frame" x="1" y="1" width="195" height="286"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="137" rowSizeStyle="automatic" viewBased="YES" id="YVu-qj-KhI">
-                                            <rect key="frame" x="0.0" y="0.0" width="195" height="294"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="195" height="286"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1983,14 +1983,29 @@ CA
                                                                         <constraint firstAttribute="height" constant="32" id="Tju-Zs-qXj"/>
                                                                     </constraints>
                                                                 </progressIndicator>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7iM-uq-aPw">
+                                                                    <rect key="frame" x="4" y="4" width="164" height="22"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="22" id="ov4-pZ-Jk0"/>
+                                                                    </constraints>
+                                                                    <textFieldCell key="cell" lineBreakMode="clipping" borderStyle="border" alignment="center" drawsBackground="YES" id="BjN-DF-iPv">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="Cz7-Fk-PsD" firstAttribute="centerY" secondItem="7nB-TB-GsB" secondAttribute="centerY" id="9NS-Wy-P3k"/>
+                                                                <constraint firstAttribute="bottom" secondItem="7iM-uq-aPw" secondAttribute="bottom" constant="4" id="FST-Q2-BWb"/>
                                                                 <constraint firstItem="Bzs-Ua-tbI" firstAttribute="centerX" secondItem="7nB-TB-GsB" secondAttribute="centerX" id="GUf-RF-8YM"/>
                                                                 <constraint firstItem="Cz7-Fk-PsD" firstAttribute="centerX" secondItem="7nB-TB-GsB" secondAttribute="centerX" id="LcB-oM-xrr"/>
                                                                 <constraint firstItem="Bzs-Ua-tbI" firstAttribute="centerY" secondItem="7nB-TB-GsB" secondAttribute="centerY" id="jkv-vR-tjM"/>
+                                                                <constraint firstItem="7iM-uq-aPw" firstAttribute="leading" secondItem="7nB-TB-GsB" secondAttribute="leading" constant="4" id="kK4-Ga-E6H"/>
+                                                                <constraint firstAttribute="trailing" secondItem="7iM-uq-aPw" secondAttribute="trailing" constant="4" id="nDS-yl-kbd"/>
                                                             </constraints>
                                                             <connections>
+                                                                <outlet property="label" destination="7iM-uq-aPw" id="2wJ-1I-uHE"/>
                                                                 <outlet property="photo" destination="Bzs-Ua-tbI" id="4xo-Gq-hda"/>
                                                                 <outlet property="processingIndicator" destination="Cz7-Fk-PsD" id="paJ-av-YqW"/>
                                                             </connections>

@@ -12,6 +12,7 @@ class ThumbnailCellView: NSTableCellView {
 	
 	@IBOutlet weak var photo: NSImageView!
 	@IBOutlet weak var processingIndicator: NSProgressIndicator!
+    @IBOutlet weak var label: NSTextField!
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
