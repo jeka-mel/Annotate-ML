@@ -22,6 +22,14 @@ class WindowController: NSWindowController {
 	var openImagePanel: NSOpenPanel!
 	var exportPanel: NSSavePanel!
 	var lastURL: URL?
+    
+    lazy final var importAnnotationsPanel: NSOpenPanel = {
+        let panel = NSOpenPanel()
+        panel.allowedFileTypes = ["annotateml"]
+        panel.allowsMultipleSelection = false
+        panel.resolvesAliases = true
+        return panel
+    }()
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -144,6 +152,18 @@ class WindowController: NSWindowController {
 			self.viewController?.addImages(images: self.openImagePanel.urls)
 		}
 	}
+    
+    @IBAction func importAnnotations(sender: AnyObject) {
+        importAnnotationsPanel.begin { [unowned self] response in
+            guard response == .OK else {
+                return
+            }
+            guard let url = self.importAnnotationsPanel.url else {
+                return
+            }
+            self.viewController?.importAnnotations(from: url)
+        }
+    }
 	
 	@IBAction func showShareMenu(sender: NSButton) {
 		shareMenu.popUp(positioning: shareMenu.items.first, at: sender.frame.origin, in: sender)

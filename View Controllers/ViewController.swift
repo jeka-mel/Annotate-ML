@@ -359,6 +359,35 @@ extension ViewController {
 			self.reloadTableView()
 		})
 	}
+    
+    func importAnnotations(from url: URL) {
+        do {
+            guard let document = self.document else {
+                throw CocoaError.error(.textReadInapplicableDocumentType)
+            }
+            let fileWrapper = try FileWrapper(url: url)
+            let buf = Document()
+            try buf.read(from: fileWrapper, ofType: "")
+            DispatchQueue.global().async { [unowned self] in
+                while buf.isLoading {
+                    Thread.sleep(forTimeInterval: 0.5)
+                }
+                DispatchQueue.main.async {
+                    do {
+                        try document.populate(from: buf, at: url, available: { row, isInserting in
+                            self.insertOrRemoveRow(at: row, inserting: isInserting)
+                        }, thumbnailAvailable: {
+                            self.reloadTableView()
+                        })
+                    } catch {
+                        alert(title: "Import failed", message: error.localizedDescription, style: .critical)
+                    }
+                }
+            }
+        } catch {
+            alert(title: "Reading file error", message: error.localizedDescription, style: .critical)
+        }
+    }
 	
 	func deletePhoto(at row: Int) {
 		

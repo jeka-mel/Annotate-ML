@@ -141,7 +141,7 @@ class Document: NSDocument {
 			DispatchQueue.main.async {
 				self.objects = objects
 				self.photoIndex = photoIndex
-				self.delegate.projectDidLoad(document: self)
+				self.delegate?.projectDidLoad(document: self)
 				self.isLoading = false
 			}
 		}
@@ -200,6 +200,86 @@ class Document: NSDocument {
 		
 		return thumbnail
 	}
+    
+    func populate(from source: Document, at url: URL, available: ((Int, Bool) -> ())? = nil, thumbnailAvailable: (() -> ())? = nil) throws {
+        
+        let index = photoIndex
+        var importCount = 0
+        
+        self.customLabels.append(contentsOf: source.customLabels.filter { !self.customLabels.contains($0) })
+        self.labels.append(contentsOf: source.labels.filter { !self.labels.contains($0) })
+        
+        let photosURL = url.appendingPathComponent(source.photosWrapper.filename!)
+        
+        let task = DispatchWorkItem { [unowned self] in
+            for item in source.objects {
+                let fileNameIndex = index + importCount
+                let imgURL = photosURL.appendingPathComponent(item.photoFilename)
+                addImage(
+                    from: imgURL,
+                    annotation: item,
+                    thumbnail: item.thumbnail,
+                    filenameIndex: fileNameIndex,
+                    base: 0,
+                    available: available,
+                    thumbnailAvailable: thumbnailAvailable
+                )
+                self.photoIndex += 1
+                importCount += 1
+            }
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now(), execute: task)
+        self.updateChangeCount(.changeDone)
+    }
+    
+    private func addImage(from url: URL,
+                          annotation: PhotoAnnotation? = nil,
+                          thumbnail: NSImage? = nil,
+                          filenameIndex: Int,
+                          base: Int ,
+                          available: ((Int, Bool) -> ())? = nil,
+                          thumbnailAvailable: (() -> ())? = nil) {
+        guard let data = try? Data(contentsOf: url), let image = NSImage(data: data) else {
+            return
+        }
+        
+        // unsupported images will be converted to PNG
+        let isAnAcceptedFileType = CreateMLImageTypes.contains(url.pathExtension.lowercased())
+        let fileExtension = isAnAcceptedFileType ? url.pathExtension : "png"
+        
+        let filename = "Photo_\(filenameIndex).\(fileExtension)"
+        
+        // copy the image data to our "Photos" directory
+        
+        let photoWrapper = FileWrapper(regularFileWithContents: data)
+        photoWrapper.setFilename(filename)
+        self.photosWrapper.addFileWrapper(photoWrapper, canOverwrite: true)
+        
+        // add our photo annotation object to the list
+        let object = annotation ?? PhotoAnnotation(filename: filename)
+        object.photoFilename = filename
+        self.objects.insert(object, at: base)
+        
+        // a new object is available!
+        DispatchQueue.main.async {
+            available?(base, true)
+        }
+        
+        // convert unsupported images to PNG (so we can quickly export them to Create ML later)
+        if !isAnAcceptedFileType {
+            self.convertToPng(original: photoWrapper, image: image)
+        }
+        
+        // generate its thumbnail
+        let thumbnail = thumbnail ?? self.createThumbnail(from: data, withFilename: filename, withSize: image.size)
+        
+        object.thumbnail = thumbnail
+        
+        DispatchQueue.main.async {
+            thumbnailAvailable?()
+        }
+    }
 	
 	func addPhotos(from urls: [URL], at start: Int = -1, available: ((Int, Bool) -> ())? = nil, thumbnailAvailable: (() -> ())? = nil) {
 		
@@ -208,50 +288,16 @@ class Document: NSDocument {
 	
 		let base = start == -1 ? 0 : start
 		
-		let task = DispatchWorkItem {
+		let task = DispatchWorkItem { [unowned self] in
 			for url in urls {
-				
-				guard let data = try? Data(contentsOf: url),
-					let image = NSImage(data: data)
-					else {
-					continue
-				}
-				
-				// unsupported images will be converted to PNG
-				let isAnAcceptedFileType = CreateMLImageTypes.contains(url.pathExtension.lowercased())
-				let fileExtension = isAnAcceptedFileType ? url.pathExtension : "png"
-				
-				let filename = "Photo_\(index + importCount).\(fileExtension)"
-				
-				// copy the image data to our "Photos" directory
-				
-				let photoWrapper = FileWrapper(regularFileWithContents: data)
-				photoWrapper.setFilename(filename)
-				self.photosWrapper.addFileWrapper(photoWrapper, canOverwrite: true)
-				
-				// add our photo annotation object to the list
-				let object = PhotoAnnotation(filename: filename)
-				self.objects.insert(object, at: base)
-				
-				// a new object is available!
-				DispatchQueue.main.async {
-					available?(base, true)
-				}
-				
-				// convert unsupported images to PNG (so we can quickly export them to Create ML later)
-				if !isAnAcceptedFileType {
-					self.convertToPng(original: photoWrapper, image: image)
-				}
-				
-				// generate its thumbnail
-				let thumbnail = self.createThumbnail(from: data, withFilename: filename, withSize: image.size)
-				
-				object.thumbnail = thumbnail
-				
-				DispatchQueue.main.async {
-					thumbnailAvailable?()
-				}
-				
+                let fileNameIndex = index + importCount
+                self.addImage(
+                    from: url,
+                    filenameIndex: fileNameIndex,
+                    base: base,
+                    available: available,
+                    thumbnailAvailable: thumbnailAvailable
+                )
 				self.photoIndex += 1
 				importCount += 1
 			}
