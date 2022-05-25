@@ -422,7 +422,7 @@ Note: This feature requires macOS 10.14 "Mojave" or later, and a device running 
                                     <rect key="frame" x="-100" y="-100" width="670" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.7656500802568218" horizontal="NO" id="zdt-a5-FhW">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.9967897271268058" horizontal="NO" id="zdt-a5-FhW">
                                     <rect key="frame" x="655" y="1" width="16" height="548"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -1540,7 +1540,7 @@ CA
                                         </buttonCell>
                                     </button>
                                     <connections>
-                                        <action selector="deleteSelectedPhotoWithSender:" target="6f7-a7-6o1" id="lRn-OF-s3T"/>
+                                        <action selector="deleteSelectedPhotoWithSender:" target="jGA-0Y-lOj" id="P9q-Fl-OaS"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="AB2021A7-500E-41E0-ACD6-CED64065C77E" label="Export" paletteLabel="Export (Create ML)" image="NSTouchBarFolderTemplate" id="TJT-BX-87M">
@@ -1743,6 +1743,7 @@ CA
                                 <toolbarItem reference="ubt-Fh-kRO"/>
                                 <toolbarItem reference="pYf-rv-5SC"/>
                                 <toolbarItem reference="aGw-WC-6D2"/>
+                                <toolbarItem reference="fKZ-FZ-h9M"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -1939,13 +1940,13 @@ CA
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="139" horizontalPageScroll="10" verticalLineScroll="139" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubA-X2-Fga">
-                                <rect key="frame" x="0.0" y="0.0" width="197" height="307"/>
+                                <rect key="frame" x="0.0" y="0.0" width="197" height="296"/>
                                 <clipView key="contentView" drawsBackground="NO" id="tkd-kF-F5j">
-                                    <rect key="frame" x="1" y="1" width="195" height="305"/>
+                                    <rect key="frame" x="1" y="1" width="195" height="294"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="137" rowSizeStyle="automatic" viewBased="YES" id="YVu-qj-KhI">
-                                            <rect key="frame" x="0.0" y="0.0" width="195" height="305"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="195" height="294"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>

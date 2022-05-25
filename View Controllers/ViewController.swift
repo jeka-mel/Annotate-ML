@@ -325,7 +325,7 @@ extension ViewController {
 		self.photosTableView.selectRowIndexes([selection], byExtendingSelection: false)
 	}
 	
-	@IBAction func deleteSelectedPhoto(sender: AnyObject) {
+	func deleteSelectedPhotoWithSender(_ sender: AnyObject) {
 		let selectedRow = photosTableView.selectedRow
 		
 		guard selectedRow != -1 else {

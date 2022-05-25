@@ -121,6 +121,10 @@ class WindowController: NSWindowController {
 	@IBAction func showLabels(sender: AnyObject) {
 		performSegue(withIdentifier: "show labels", sender: sender)
 	}
+    
+    @IBAction func deleteSelectedPhoto(sender: AnyObject) {
+        viewController?.deleteSelectedPhotoWithSender(sender)
+    }
 	
 	// MARK: Navigation Actions
 	
