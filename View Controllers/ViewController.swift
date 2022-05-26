@@ -382,7 +382,7 @@ extension ViewController {
                 DispatchQueue.main.async {
                     do {
                         try document.populate(from: buf, at: url, available: { row, isInserting in
-                            self.insertOrRemoveRow(at: row, inserting: isInserting)
+                            self.reloadTableView()
                         }, thumbnailAvailable: {
                             self.reloadTableView()
                         })
